@@ -1,3 +1,7 @@
+<!-- 
+    -- used else/if statements to qualify deposits and withdrawals
+    -- fixed a spelling error
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,7 +117,7 @@
             updatePin() {
                 this.userPin = prompt("Enter new PIN: ");
                 //checks userPin against accounts with isFound method
-                let isFound = this.pinExists(this.userPin);
+                this.isFound = this.pinExists(this.userPin);
                 
                 if (isFound) {
                     alert("Account already exists");
