@@ -52,10 +52,13 @@
                 }
             }
             pinExists(pin) {
-                this.accounts = JSON.parse(localStorage.getItem("accounts"));
+                //this was new to me, i didn't know you could do an or statement for a variable assignment.
+                this.accounts = JSON.parse(localStorage.getItem("accounts")) || [];
                 for (let i=0;i<this.accounts.length;i++) {
                     if (Number(pin) === Number(this.accounts[i].pin)) {
                         this.acctIndex = i;
+                        //returns that pin exists
+                        // return true;
                         return this.accounts[i].balance;
                     }
                 }
@@ -76,13 +79,32 @@
             }
             withdrawal() {
                 this.amt = prompt("Enter withdrawal amount: ");
-                this.balance -= this.amt;
-                this.updateBalance();
+                
+                if (isNaN(this.amt)) {
+                    //if withdrawal amt is NaN, error thrown
+                    alert("Value must be numbers only");
+                } else if (this.amt > this.balance) {
+                    //withdrawal amount can't be less than 0 
+                    alert("Stop being poor");
+                } else {
+                    //subtracts withdrawal amt from balance and displays
+                    this.balance -= Number(this.amt);
+                    this.updateBalance();
+                }
+
             }
             deposit() {
-                this.amt = prompt("Enter withdrawal amount: ");
-                this.balance += Number(this.amt);
-                this.updateBalance();
+                this.amt = prompt("Enter deposit amount: "); /*said withdrawal, should be deposit*/
+                if (isNaN(this.amt)) {
+                    //if deposit amt is NaN, error thrown 
+                    alert("Value must be numbers only");
+                } else if (this.amt < 0) {
+                    alert("Can't deposit a negative number");
+                } else {
+                    //adds withdrawal amount to balance and displays
+                    this.balance += Number(this.amt);
+                    this.updateBalance();
+                }
             }
             updateBalance() {
                 this.accounts[this.acctIndex].balance = this.balance;
@@ -90,8 +112,16 @@
             }
             updatePin() {
                 this.userPin = prompt("Enter new PIN: ");
-                this.accounts[this.acctIndex].pin = this.userPin;
-                localStorage.setItem("accounts",JSON.stringify(this.accounts));
+                //checks userPin against accounts with isFound method
+                let isFound = this.pinExists(this.userPin);
+                
+                if (isFound) {
+                    alert("Account already exists");
+                } else{
+                    alert("Pin updated!")
+                    this.accounts[this.acctIndex].pin = this.userPin;
+                    localStorage.setItem("accounts",JSON.stringify(this.accounts));
+                }
             }
         }
         atm = new Atm();
