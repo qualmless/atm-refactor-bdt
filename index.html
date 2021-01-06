@@ -1,6 +1,7 @@
 <!-- 
     -- used else/if statements to qualify deposits and withdrawals
     -- fixed a spelling error
+    -- balance returns true if 0, but can't keep accounts array without true so not sure where to go here
  -->
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +63,8 @@
                     if (Number(pin) === Number(this.accounts[i].pin)) {
                         this.acctIndex = i;
                         //returns that pin exists
-                        // return true;
-                        return this.accounts[i].balance;
+                        return true;
+                        // return this.accounts[i].balance;
                     }
                 }
                 return false;
